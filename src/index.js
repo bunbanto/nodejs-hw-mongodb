@@ -8,5 +8,3 @@ const bootstrap = async () => {
 };
 
 bootstrap();
-
-setupServer();
