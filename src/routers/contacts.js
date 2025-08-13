@@ -17,6 +17,7 @@ import { validateBody } from '../middlewares/validateBody.js';
 const router = Router();
 
 router.get('/contacts', ctrlWrapper(getContactsController));
+
 router.get(
   '/contacts/:contactId',
   isValidId,
@@ -24,16 +25,17 @@ router.get(
 );
 router.post(
   '/contacts',
-  isValidId,
   validateBody(createContactSchema),
   ctrlWrapper(createContactController),
 );
+
 router.patch(
   '/contacts/:contactId',
   isValidId,
   validateBody(updateContactSchema),
   ctrlWrapper(patchContactController),
 );
+
 router.delete(
   '/contacts/:contactId',
   isValidId,
