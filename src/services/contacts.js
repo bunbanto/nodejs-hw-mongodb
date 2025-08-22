@@ -13,17 +13,16 @@ export const getAllContacts = async ({
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
-  const contactsQuery = ContactsCollection.find({ userId, ...filter });
-  if (filter.isFavourite) {
+  const query = { userId, ...filter };
+
+  const contactsQuery = ContactsCollection.find(query);
+
+  if (filter.isFavourite !== undefined) {
     contactsQuery.where('isFavourite').equals(filter.isFavourite);
   }
 
-  const contactsCount = await ContactsCollection.find({
-    userId,
-    ...filter,
-  })
-    .merge(contactsQuery)
-    .countDocuments();
+  const contactsCount = await ContactsCollection.countDocuments(query);
+
   const contacts = await contactsQuery
     .skip(skip)
     .limit(limit)
@@ -39,22 +38,15 @@ export const getAllContacts = async ({
 };
 
 export const getContactById = async (contactId, userId) => {
-  const contact = await ContactsCollection.findById({ _id: contactId, userId });
-  return contact;
+  return ContactsCollection.findOne({ _id: contactId, userId });
 };
 
 export const createContact = async (payload) => {
-  const contact = await ContactsCollection.create(payload);
-  return contact;
+  return ContactsCollection.create(payload);
 };
 
 export const deleteContact = async (contactId, userId) => {
-  const contact = await ContactsCollection.findOneAndDelete({
-    _id: contactId,
-    userId,
-  });
-
-  return contact;
+  return ContactsCollection.findOneAndDelete({ _id: contactId, userId });
 };
 
 export const updateContact = async (
@@ -63,20 +55,13 @@ export const updateContact = async (
   userId,
   options = {},
 ) => {
-  const rawResult = await ContactsCollection.findOneAndUpdate(
+  const contact = await ContactsCollection.findOneAndUpdate(
     { _id: contactId, userId },
     payload,
-    {
-      new: true,
-      includeResultMetadata: true,
-      ...options,
-    },
+    { new: true, ...options },
   );
 
-  if (!rawResult || !rawResult.value) return null;
+  if (!contact) return null;
 
-  return {
-    contact: rawResult.value,
-    isNew: Boolean(rawResult?.lastErrorObject?.upserted),
-  };
+  return { contact, isNew: false };
 };
