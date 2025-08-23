@@ -24,8 +24,8 @@ router.get('/', ctrlWrapper(getContactsController));
 
 router.get(
   '/:contactId',
-  checkPermission,
   isValidId,
+  checkPermission,
   ctrlWrapper(getContactByIdController),
 );
 router.post(
@@ -36,16 +36,16 @@ router.post(
 
 router.patch(
   '/:contactId',
-  checkPermission,
   isValidId,
+  checkPermission,
   validateBody(updateContactSchema),
   ctrlWrapper(patchContactController),
 );
 
 router.delete(
   '/:contactId',
-  checkPermission,
   isValidId,
+  checkPermission,
   ctrlWrapper(deleteContactController),
 );
 
