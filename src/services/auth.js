@@ -3,6 +3,7 @@ import { randomBytes } from 'crypto';
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
 import {
+  ENV_VARS,
   FIFTEEN_MINUTES,
   ONE_DAY,
   SMTP,
@@ -103,9 +104,9 @@ export const requestResetToken = async (email) => {
       sub: user._id,
       email,
     },
-    getEnvVar('JWT_SECRET'),
+    getEnvVar(ENV_VARS.JWT_SECRET),
     {
-      expiresIn: '15m',
+      expiresIn: '5m',
     },
   );
 
@@ -121,7 +122,9 @@ export const requestResetToken = async (email) => {
   const template = handlebars.compile(templateSource);
   const html = template({
     name: user.name,
-    link: `${getEnvVar('BACKEND_DOMAIN')}/reset-password?token=${resetToken}`,
+    link: `${getEnvVar(
+      ENV_VARS.APP_DOMAIN,
+    )}/reset-password?token=${resetToken}`,
   });
 
   await sendEmail({
