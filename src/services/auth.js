@@ -123,7 +123,7 @@ export const requestResetToken = async (email) => {
   const html = template({
     name: user.name,
     link: `${getEnvVar(
-      ENV_VARS.APP_DOMAIN,
+      ENV_VARS.BACKEND_DOMAIN,
     )}/reset-password?token=${resetToken}`,
   });
 
@@ -139,7 +139,7 @@ export const resetPassword = async (payload) => {
   let entries;
 
   try {
-    entries = jwt.verify(payload.token, getEnvVar('JWT_SECRET'));
+    entries = jwt.verify(payload.token, getEnvVar(ENV_VARS.JWT_SECRET));
   } catch (err) {
     if (err instanceof Error) throw createHttpError(401, err.message);
     throw err;
