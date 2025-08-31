@@ -1,6 +1,9 @@
 import path from 'node:path';
 export const TEMPLATES_DIR = path.join(process.cwd(), 'src', 'templates');
 
+export const TEMP_UPLOAD_DIR = path.join(process.cwd(), 'temp');
+export const UPLOAD_DIR = path.join(process.cwd(), 'uploads');
+
 export const SORT_ORDER = {
   ASC: 'asc',
   DESC: 'desc',
@@ -21,8 +24,10 @@ export const ENV_VARS = {
   APP_DOMAIN: 'APP_DOMAIN',
   JWT_SECRET: 'JWT_SECRET',
   BACKEND_DOMAIN: 'BACKEND_DOMAIN',
-  // CLOUDINARY_NAME: 'CLOUDINARY_NAME',
-  // CLOUDINARY_API_KEY: 'CLOUDINARY_API_KEY',
-  // CLOUDINARY_API_SECRET: 'CLOUDINARY_API_SECRET',
-  // ENABLE_CLOUDINARY: 'ENABLE_CLOUDINARY',
+};
+export const CLOUDINARY = {
+  CLOUD_NAME: 'CLOUD_NAME',
+  API_KEY: 'API_KEY',
+  API_SECRET: 'API_SECRET',
+  ENABLE_CLOUDINARY: 'ENABLE_CLOUDINARY',
 };
